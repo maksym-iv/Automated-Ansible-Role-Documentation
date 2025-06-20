@@ -194,6 +194,33 @@ def gather_options(path: list[str], arguments: dict) -> list[tuple[list[str], di
     return results
 
 
+# ## Markdown defined table
+
+# Some markdown editors show correct layout and syntax highlighting if you use `<br>` tags in your code block. But this is very cumbersome and akward. And finally GitHub itself will show the code block on a single line :(
+
+# | Status | Response  |
+# | ------ | --------- |
+# | 200    |<pre lang="json">{<br>  "id": 10,<br>  "username": "alanpartridge",<br>  "email": "alan@alan.com",<br>  "password_hash": "$2a$10$uhUIUmVWVnrBWx9rrDWhS.CPCWCZsyqqa8./whhfzBZydX7yvahHS",<br>  "password_salt": "$2a$10$uhUIUmVWVnrBWx9rrDWhS.",<br>  "created_at": "2015-02-14T20:45:26.433Z",<br>  "updated_at": "2015-02-14T20:45:26.540Z"<br>}</pre>|
+# | 400    |**Error**, what the hell is going on?!?|
+
+
+# <pre lang="json">{<br>  "id": 10,<br>  "username": "alanpartridge",<br>  "email": "alan@alan.com",<br>  "password_hash": "$2a$10$uhUIUmVWVnrBWx9rrDWhS.CPCWCZsyqqa8./whhfzBZydX7yvahHS",<br>  "password_salt": "$2a$10$uhUIUmVWVnrBWx9rrDWhS.",<br>  "created_at": "2015-02-14T20:45:26.433Z",<br>  "updated_at": "2015-02-14T20:45:26.540Z"<br>}</pre>|
+def _htmlify_code(text):
+    groups = re.findall(r"((?:```(?:(?!```).)+```)+)", text)
+    # if len(groups) == 0:
+    #     return text
+
+    splitted_text = text.split("```")
+    for i in range(len(splitted_text)):
+        if i % 2 > 0:
+            splitted_text[i] = splitted_text[i].strip()
+            splitted_text[i] = splitted_text[i].replace("\n", "<br>")
+            splitted_text[i] = f"<pre>{splitted_text[i]}</pre>"
+        splitted_text[i] = splitted_text[i].strip()
+
+    return " ".join(list(filter(lambda x: x.strip(), splitted_text)))
+
+
 def parse_options(ctx: typer.Context) -> dict:
     """
     Parses argument_specs into options structure, with sections for subptions
