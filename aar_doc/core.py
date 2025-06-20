@@ -206,9 +206,10 @@ def gather_options(path: list[str], arguments: dict) -> list[tuple[list[str], di
 
 # <pre lang="json">{<br>  "id": 10,<br>  "username": "alanpartridge",<br>  "email": "alan@alan.com",<br>  "password_hash": "$2a$10$uhUIUmVWVnrBWx9rrDWhS.CPCWCZsyqqa8./whhfzBZydX7yvahHS",<br>  "password_salt": "$2a$10$uhUIUmVWVnrBWx9rrDWhS.",<br>  "created_at": "2015-02-14T20:45:26.433Z",<br>  "updated_at": "2015-02-14T20:45:26.540Z"<br>}</pre>|
 def _htmlify_code(text):
+    # https://regex101.com/r/g6jnMM/1
     groups = re.findall(r"((?:```(?:(?!```).)+```)+)", text)
-    # if len(groups) == 0:
-    #     return text
+    if len(groups) == 0:
+        return text
 
     splitted_text = text.split("```")
     for i in range(len(splitted_text)):

@@ -31,8 +31,12 @@ from aar_doc.core import _htmlify_code
         # ),
         (
             'Whether to install NetObserv Flow.\n```\n192.0.2.1:\n  mem: 256\n# global mem limit rate\n"0.0.0.0/32": 64\n```\n',
-            'Whether to install NetObserv Flow. <pre><br>192.0.2.1:<br>  mem: 256<br># global mem limit rate<br>"0.0.0.0/32": 64</pre>',
+            'Whether to install NetObserv Flow. <pre>192.0.2.1:<br>  mem: 256<br># global mem limit rate<br>"0.0.0.0/32": 64</pre>',
         ),
+        # (
+        #     'Whether to install NetObserv Flow.\n```\n192.0.2.1:\n  mem: 256\n# global mem limit rate\n"0.0.0.0/32": 64\n```\n```\n192.0.2.1:\n  mem: 256\n# global mem limit rate\n"0.0.0.0/32": 64\n```',
+        #     'Whether to install NetObserv Flow. <pre>192.0.2.1:<br>  mem: 256<br># global mem limit rate<br>"0.0.0.0/32": 64</pre> <pre>192.0.2.1:<br>  mem: 256<br># global mem limit rate<br>"0.0.0.0/32": 64</pre>',
+        # ),
     ],
 )
 def test_htmlify_code(text, want):
